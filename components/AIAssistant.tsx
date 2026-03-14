@@ -64,12 +64,7 @@ export function AIAssistant() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className={cn(
-          'fixed bottom-6 right-6 z-50 p-4 rounded-full transition-all duration-300',
-          'bg-gradient-to-br from-[#00D4FF] to-[#4A9EFF] text-white shadow-lg hover:shadow-xl',
-          'dark:from-[#00D4FF] dark:to-[#4A9EFF]',
-          'light:from-[#0084FF] light:to-[#3B82F6] light:text-white'
-        )}
+        className="fixed bottom-6 right-6 z-50 p-4 rounded-full transition-all duration-300 bg-gradient-to-br from-[#00D4FF] to-[#4A9EFF] text-white shadow-lg hover:shadow-xl"
         title="AI Assistant"
       >
         <MessageCircle size={24} />
@@ -83,54 +78,28 @@ export function AIAssistant() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2 }}
-            className={cn(
-              'fixed bottom-24 right-6 z-50 w-96 h-[500px] rounded-2xl shadow-2xl overflow-hidden',
-              'bg-card text-foreground border border-border',
-              'dark:bg-[#0A1628] dark:text-white dark:border-[#1A3A5C]',
-              'light:bg-white light:text-[#0F172A] light:border-[#E2E8F0]',
-              'flex flex-col'
-            )}
+            className="fixed bottom-24 right-6 z-50 w-96 h-[500px] rounded-2xl shadow-2xl overflow-hidden bg-[#0A1628] text-white border border-[#1A3A5C] flex flex-col"
           >
             {/* Header */}
-            <div className={cn(
-              'flex items-center justify-between p-4 border-b',
-              'dark:border-[#1A3A5C]',
-              'light:border-[#E2E8F0]'
-            )}>
+            <div className="flex items-center justify-between p-4 border-b border-[#1A3A5C]">
               <div>
                 <h3 className="font-semibold text-lg">CB Assistant</h3>
-                <p className={cn(
-                  'text-xs',
-                  'dark:text-[#7BC8FF]',
-                  'light:text-[#475569]'
-                )}>
+                <p className="text-xs text-[#7BC8FF]">
                   Ask me anything about our services
                 </p>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className={cn(
-                  'p-2 rounded hover:bg-opacity-80 transition-colors',
-                  'dark:hover:bg-[#00D4FF]/10',
-                  'light:hover:bg-[#E2E8F0]'
-                )}
+                className="p-2 rounded hover:bg-[#00D4FF]/10 transition-colors"
               >
                 <X size={20} />
               </button>
             </div>
 
             {/* Messages */}
-            <div className={cn(
-              'flex-1 overflow-y-auto p-4 space-y-4',
-              'dark:bg-[#0A1628]',
-              'light:bg-[#F8FAFC]'
-            )}>
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#0A1628]">
               {messages.length === 0 && !isLoading && (
-                <div className={cn(
-                  'text-center text-sm',
-                  'dark:text-[#7BC8FF]',
-                  'light:text-[#475569]'
-                )}>
+                <div className="text-center text-sm text-[#7BC8FF]">
                   <p className="mb-2">Hey there!</p>
                   <p>I'm here to help answer any questions about CB InfoTech's services, pricing, and capabilities.</p>
                 </div>
@@ -150,8 +119,8 @@ export function AIAssistant() {
                     className={cn(
                       'max-w-xs px-4 py-2 rounded-lg break-words text-sm',
                       message.role === 'user'
-                        ? 'dark:bg-[#00D4FF]/20 dark:text-white light:bg-[#0084FF]/10 light:text-[#0F172A]'
-                        : 'dark:bg-[#0D2137] dark:text-[#E8F4FF] light:bg-[#E2E8F0] light:text-[#0F172A]'
+                        ? 'bg-[#00D4FF]/20 text-white'
+                        : 'bg-[#0D2137] text-[#E8F4FF]'
                     )}
                   >
                     {message.content}
@@ -162,11 +131,7 @@ export function AIAssistant() {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className={cn(
-                    'flex gap-2',
-                    'dark:text-[#7BC8FF]',
-                    'light:text-[#475569]'
-                  )}
+                  className="flex gap-2 text-[#7BC8FF]"
                 >
                   <span>●</span>
                   <span>●</span>
@@ -176,11 +141,7 @@ export function AIAssistant() {
             </div>
 
             {/* Input */}
-            <div className={cn(
-              'p-4 border-t',
-              'dark:border-[#1A3A5C]',
-              'light:border-[#E2E8F0]'
-            )}>
+            <div className="p-4 border-t border-[#1A3A5C]">
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -189,24 +150,12 @@ export function AIAssistant() {
                   onKeyPress={handleKeyPress}
                   placeholder="Ask a question..."
                   disabled={isLoading}
-                  className={cn(
-                    'flex-1 px-3 py-2 rounded border outline-none transition-colors',
-                    'dark:bg-[#0D2137] dark:border-[#1A3A5C] dark:text-white dark:placeholder-[#7BC8FF]/50',
-                    'dark:focus:border-[#00D4FF]',
-                    'light:bg-white light:border-[#E2E8F0] light:text-[#0F172A] light:placeholder-[#475569]/50',
-                    'light:focus:border-[#0084FF]',
-                    'disabled:opacity-50 disabled:cursor-not-allowed'
-                  )}
+                  className="flex-1 px-3 py-2 rounded border bg-[#0D2137] border-[#1A3A5C] text-white placeholder-[#7BC8FF]/50 outline-none focus:border-[#00D4FF] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={isLoading || !inputValue.trim()}
-                  className={cn(
-                    'p-2 rounded transition-all duration-200',
-                    'dark:bg-[#00D4FF]/20 dark:text-[#00D4FF] dark:hover:bg-[#00D4FF]/30',
-                    'light:bg-[#0084FF]/20 light:text-[#0084FF] light:hover:bg-[#0084FF]/30',
-                    'disabled:opacity-50 disabled:cursor-not-allowed'
-                  )}
+                  className="p-2 rounded bg-[#00D4FF]/20 text-[#00D4FF] hover:bg-[#00D4FF]/30 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Send size={18} />
                 </button>

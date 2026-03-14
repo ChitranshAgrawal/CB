@@ -20,7 +20,7 @@ import { AIAssistant } from '@/components/AIAssistant'
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen bg-background text-foreground transition-colors duration-300">
+    <main className="relative min-h-screen bg-[#020B18]">
       {/* Global effects */}
       <ParticleBackground />
       <CustomCursor />

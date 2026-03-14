@@ -37,39 +37,6 @@
   --text-secondary: #B8D4E8;
 }
 
-/* Light Mode Colors */
-.light {
-  --background: #F9FAFB;
-  --foreground: #111827;
-  --card: #FFFFFF;
-  --card-foreground: #111827;
-  --popover: #FFFFFF;
-  --popover-foreground: #111827;
-  --primary: #0052CC;
-  --primary-foreground: #FFFFFF;
-  --secondary: #F3F4F6;
-  --secondary-foreground: #111827;
-  --muted: #E5E7EB;
-  --muted-foreground: #374151;
-  --accent: #0052CC;
-  --accent-foreground: #FFFFFF;
-  --destructive: #DC2626;
-  --destructive-foreground: #FFFFFF;
-  --border: #D1D5DB;
-  --input: #F3F4F6;
-  --ring: #0052CC;
-  
-  /* Custom colors for light mode */
-  --void-black: #F9FAFB;
-  --deep-navy: #FFFFFF;
-  --dark-steel: #E5E7EB;
-  --electric-cyan: #0052CC;
-  --neon-blue: #0052CC;
-  --soft-glow: #2563EB;
-  --text-primary: #111827;
-  --text-secondary: #374151;
-}
-
 @theme inline {
   --font-sans: var(--font-inter), 'Inter', system-ui, sans-serif;
   --font-heading: var(--font-space), 'Space Grotesk', system-ui, sans-serif;
