@@ -7,8 +7,9 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Sun, Moon } from 'lucide-react'
 import { GlowButton } from '@/components/ui/GlowButton'
+import { useTheme } from '@/components/ThemeProvider'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
@@ -21,6 +22,7 @@ const navLinks = [
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { theme, setTheme } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,8 +87,34 @@ export function Navbar() {
               ))}
             </div>
 
-            {/* CTA Button */}
-            <div className="hidden md:block">
+            {/* Theme Toggle + CTA Buttons */}
+            <div className="hidden md:flex items-center gap-3">
+              <div className="flex items-center gap-2 bg-[#0A1628]/50 rounded-lg p-1.5">
+                <button
+                  onClick={() => setTheme('light')}
+                  className={cn(
+                    'p-2 rounded transition-all duration-200',
+                    theme === 'light'
+                      ? 'bg-[#00D4FF]/20 text-[#00D4FF]'
+                      : 'text-[#7BC8FF] hover:text-[#00D4FF]'
+                  )}
+                  title="Light mode"
+                >
+                  <Sun size={18} />
+                </button>
+                <button
+                  onClick={() => setTheme('dark')}
+                  className={cn(
+                    'p-2 rounded transition-all duration-200',
+                    theme === 'dark'
+                      ? 'bg-[#00D4FF]/20 text-[#00D4FF]'
+                      : 'text-[#7BC8FF] hover:text-[#00D4FF]'
+                  )}
+                  title="Dark mode"
+                >
+                  <Moon size={18} />
+                </button>
+              </div>
               <GlowButton
                 size="sm"
                 onClick={() => handleNavClick('#contact')}
@@ -131,6 +159,37 @@ export function Navbar() {
                   {link.label}
                 </motion.button>
               ))}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.35 }}
+                className="flex items-center gap-2 bg-[#0A1628]/50 rounded-lg p-2"
+              >
+                <button
+                  onClick={() => setTheme('light')}
+                  className={cn(
+                    'p-2 rounded transition-all duration-200',
+                    theme === 'light'
+                      ? 'bg-[#00D4FF]/20 text-[#00D4FF]'
+                      : 'text-[#7BC8FF] hover:text-[#00D4FF]'
+                  )}
+                  title="Light mode"
+                >
+                  <Sun size={20} />
+                </button>
+                <button
+                  onClick={() => setTheme('dark')}
+                  className={cn(
+                    'p-2 rounded transition-all duration-200',
+                    theme === 'dark'
+                      ? 'bg-[#00D4FF]/20 text-[#00D4FF]'
+                      : 'text-[#7BC8FF] hover:text-[#00D4FF]'
+                  )}
+                  title="Dark mode"
+                >
+                  <Moon size={20} />
+                </button>
+              </motion.div>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

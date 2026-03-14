@@ -17,15 +17,15 @@ export function Hero() {
   }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden dark:bg-[#020B18] light:bg-[#F8FAFC]">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#020B18] via-[#081422] to-[#020B18]" />
+      <div className="absolute inset-0 dark:bg-gradient-to-b dark:from-[#020B18] dark:via-[#081422] dark:to-[#020B18] light:bg-gradient-to-b light:from-[#F8FAFC] light:via-white light:to-[#F8FAFC]" />
 
       {/* Geometric HUD - no radar */}
       <JarvisHUD />
 
       {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-12 sm:py-0">
 
         {/* Eyebrow badge */}
         <motion.div
@@ -45,7 +45,7 @@ export function Hero() {
   initial={{ opacity: 0, y: 30 }}
   animate={{ opacity: 1, y: 0 }}
   transition={{ duration: 0.7, delay: 0.4 }}
-  className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.0] tracking-tight"
+  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-[1.1] sm:leading-[1.0] tracking-tight"
   style={{ fontFamily: "var(--font-space), Space Grotesk, sans-serif" }}
 >
   <span className="text-white">We Build </span>
@@ -53,7 +53,7 @@ export function Hero() {
   <br />
 
   <span
-    className="text-[#00D4FF]"
+    className="text-primary dark:text-[#00D4FF] light:text-[#0084FF]"
     style={{
       textShadow: "0 0 10px rgba(0,212,255,0.25)",
     }}

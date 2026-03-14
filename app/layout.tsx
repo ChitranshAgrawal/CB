@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { ThemeProvider } from '@/components/ThemeProvider'
 import './globals.css'
 import { siteConfig } from '@/lib/site'
 
@@ -59,9 +60,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`} suppressHydrationWarning>
-      <body className="font-sans antialiased bg-[#020B18] text-white overflow-x-hidden" suppressHydrationWarning>
-        {children}
-        <Analytics />
+      <body className="font-sans antialiased overflow-x-hidden" suppressHydrationWarning>
+        <ThemeProvider>
+          {children}
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )

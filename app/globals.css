@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* CB InfoTech JARVIS Theme */
+  /* CB InfoTech JARVIS Theme - Dark Mode (Default) */
   --background: #020B18;
   --foreground: #E8F4FF;
   --card: #0A1628;
@@ -35,6 +35,39 @@
   --soft-glow: #7BC8FF;
   --text-primary: #FFFFFF;
   --text-secondary: #B8D4E8;
+}
+
+/* Light Mode Colors */
+.light {
+  --background: #F8FAFC;
+  --foreground: #0F172A;
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  --primary: #0084FF;
+  --primary-foreground: #FFFFFF;
+  --secondary: #E2E8F0;
+  --secondary-foreground: #0F172A;
+  --muted: #F1F5F9;
+  --muted-foreground: #475569;
+  --accent: #3B82F6;
+  --accent-foreground: #FFFFFF;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --border: #E2E8F0;
+  --input: #F1F5F9;
+  --ring: #0084FF;
+  
+  /* Custom colors for light mode */
+  --void-black: #F8FAFC;
+  --deep-navy: #FFFFFF;
+  --dark-steel: #E2E8F0;
+  --electric-cyan: #0084FF;
+  --neon-blue: #3B82F6;
+  --soft-glow: #60A5FA;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
 }
 
 @theme inline {

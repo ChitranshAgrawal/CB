@@ -16,10 +16,11 @@ import { Contact } from '@/components/sections/Contact'
 import { Footer } from '@/components/sections/Footer'
 import { ParticleBackground } from '@/components/effects/ParticleBackground'
 import { CustomCursor } from '@/components/effects/CustomCursor'
+import { AIAssistant } from '@/components/AIAssistant'
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen bg-[#020B18]">
+    <main className="relative min-h-screen bg-background text-foreground transition-colors duration-300">
       {/* Global effects */}
       <ParticleBackground />
       <CustomCursor />
@@ -37,6 +38,9 @@ export default function HomePage() {
       <Pricing />
       <Contact />
       <Footer />
+
+      {/* AI Assistant */}
+      <AIAssistant />
     </main>
   )
 }

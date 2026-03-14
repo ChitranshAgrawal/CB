@@ -62,9 +62,9 @@ export function Testimonials() {
   }, [isAutoPlaying, next])
 
   return (
-    <section className="relative py-16 md:py-24 overflow-hidden">
+    <section className="relative py-16 md:py-24 overflow-hidden dark:bg-[#020B18] light:bg-[#F8FAFC]">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#020B18] via-[#0A1628]/30 to-[#020B18]" />
+      <div className="absolute inset-0 dark:bg-gradient-to-b dark:from-[#020B18] dark:via-[#0A1628]/30 dark:to-[#020B18] light:bg-gradient-to-b light:from-[#F8FAFC] light:via-white light:to-[#F8FAFC]" />
       
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
