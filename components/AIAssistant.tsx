@@ -1,34 +1,50 @@
 'use client'
 
 import { useState } from 'react'
-import { useChat } from '@ai-sdk/react'
-import { DefaultChatTransport } from 'ai'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle, X, Send } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-function getMessageText(message: any): string {
-  if (!message.parts || !Array.isArray(message.parts)) return ''
-  return message.parts
-    .filter((p: any) => p.type === 'text')
-    .map((p: any) => p.text)
-    .join('')
+interface Message {
+  role: 'user' | 'assistant'
+  content: string
 }
 
 export function AIAssistant() {
   const [isOpen, setIsOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
+  const [messages, setMessages] = useState<Message[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
-  const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({
-      api: '/api/chat',
-    }),
-  })
+  const handleSendMessage = async () => {
+    if (!inputValue.trim()) return
 
-  const handleSendMessage = () => {
-    if (inputValue.trim()) {
-      sendMessage({ text: inputValue })
-      setInputValue('')
+    const userMessage = inputValue
+    setInputValue('')
+    setMessages((prev) => [...prev, { role: 'user', content: userMessage }])
+    setIsLoading(true)
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [
+            ...messages,
+            { role: 'user', content: userMessage },
+          ],
+        }),
+      })
+
+      if (!response.ok) throw new Error('Failed to get response')
+
+      const data = await response.json()
+      setMessages((prev) => [...prev, { role: 'assistant', content: data.text || data.content || 'I could not generate a response.' }])
+    } catch (error) {
+      console.error('Chat error:', error)
+      setMessages((prev) => [...prev, { role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' }])
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -109,13 +125,13 @@ export function AIAssistant() {
               'dark:bg-[#0A1628]',
               'light:bg-[#F8FAFC]'
             )}>
-              {messages.length === 0 && (
+              {messages.length === 0 && !isLoading && (
                 <div className={cn(
                   'text-center text-sm',
                   'dark:text-[#7BC8FF]',
                   'light:text-[#475569]'
                 )}>
-                  <p className="mb-2">👋 Hey there!</p>
+                  <p className="mb-2">Hey there!</p>
                   <p>I'm here to help answer any questions about CB InfoTech's services, pricing, and capabilities.</p>
                 </div>
               )}
@@ -138,11 +154,11 @@ export function AIAssistant() {
                         : 'dark:bg-[#0D2137] dark:text-[#E8F4FF] light:bg-[#E2E8F0] light:text-[#0F172A]'
                     )}
                   >
-                    {getMessageText(message)}
+                    {message.content}
                   </div>
                 </motion.div>
               ))}
-              {status === 'streaming' && (
+              {isLoading && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -172,7 +188,7 @@ export function AIAssistant() {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask a question..."
-                  disabled={status === 'streaming'}
+                  disabled={isLoading}
                   className={cn(
                     'flex-1 px-3 py-2 rounded border outline-none transition-colors',
                     'dark:bg-[#0D2137] dark:border-[#1A3A5C] dark:text-white dark:placeholder-[#7BC8FF]/50',
@@ -184,7 +200,7 @@ export function AIAssistant() {
                 />
                 <button
                   onClick={handleSendMessage}
-                  disabled={status === 'streaming' || !inputValue.trim()}
+                  disabled={isLoading || !inputValue.trim()}
                   className={cn(
                     'p-2 rounded transition-all duration-200',
                     'dark:bg-[#00D4FF]/20 dark:text-[#00D4FF] dark:hover:bg-[#00D4FF]/30',
