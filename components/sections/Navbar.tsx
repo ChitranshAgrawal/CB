@@ -49,7 +49,9 @@ export function Navbar() {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
           isScrolled 
-            ? 'bg-[#020B18]/80 backdrop-blur-lg border-b border-[#1A3A5C]/50' 
+            ? theme === 'dark'
+              ? 'dark:bg-[#020B18]/80 dark:backdrop-blur-lg dark:border-b dark:border-[#1A3A5C]/50'
+              : 'light:bg-white/80 light:backdrop-blur-lg light:border-b light:border-[#DCEAF0]'
             : 'bg-transparent'
         )}
       >
@@ -58,15 +60,26 @@ export function Navbar() {
             {/* Logo */}
             <motion.a
               href="#"
-              className="flex items-center gap-2 group"
+              className="flex items-center gap-2 group flex-shrink-0"
               whileHover={{ scale: 1.02 }}
             >
               <div className="relative w-10 h-10 flex items-center justify-center">
-                <div className="absolute inset-0 bg-[#00D4FF]/20 rounded-lg blur-md group-hover:bg-[#00D4FF]/30 transition-colors" />
-                <span className="relative text-xl font-bold text-[#00D4FF]" style={{ fontFamily: 'var(--font-space), Space Grotesk, sans-serif' }}>CB</span>
+                <div className={cn(
+                  'absolute inset-0 rounded-lg blur-md transition-colors group-hover:opacity-100',
+                  theme === 'dark'
+                    ? 'dark:bg-[#00D4FF]/20 dark:group-hover:bg-[#00D4FF]/30'
+                    : 'light:bg-[#0066FF]/20 light:group-hover:bg-[#0066FF]/30'
+                )} />
+                <span className={cn(
+                  'relative text-xl font-bold',
+                  theme === 'dark' ? 'dark:text-[#00D4FF]' : 'light:text-[#0066FF]'
+                )} style={{ fontFamily: 'var(--font-space), Space Grotesk, sans-serif' }}>CB</span>
               </div>
               <span 
-                className="text-lg font-semibold text-white hidden sm:block"
+                className={cn(
+                  'text-lg font-semibold hidden sm:block',
+                  theme === 'dark' ? 'dark:text-white' : 'light:text-[#0F172A]'
+                )}
                 style={{ fontFamily: 'var(--font-space), Space Grotesk, sans-serif' }}
               >
                 InfoTech
@@ -74,47 +87,41 @@ export function Navbar() {
             </motion.a>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-8 flex-1 justify-center px-4">
               {navLinks.map((link) => (
                 <button
                   key={link.label}
                   onClick={() => handleNavClick(link.href)}
-                  className="relative text-[#B8D4E8] hover:text-white transition-colors font-medium group"
+                  className={cn(
+                    'relative transition-colors font-medium group',
+                    theme === 'dark'
+                      ? 'dark:text-[#B8D4E8] dark:hover:text-white'
+                      : 'light:text-[#525C73] light:hover:text-[#0F172A]'
+                  )}
                 >
                   {link.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#00D4FF] transition-all duration-300 group-hover:w-full" />
+                  <span className={cn(
+                    'absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full',
+                    theme === 'dark' ? 'dark:bg-[#00D4FF]' : 'light:bg-[#0066FF]'
+                  )} />
                 </button>
               ))}
             </div>
 
             {/* Theme Toggle + CTA Buttons */}
-            <div className="hidden md:flex items-center gap-3">
-              <div className="flex items-center gap-2 bg-[#0A1628]/50 rounded-lg p-1.5">
-                <button
-                  onClick={() => setTheme('light')}
-                  className={cn(
-                    'p-2 rounded transition-all duration-200',
-                    theme === 'light'
-                      ? 'bg-[#00D4FF]/20 text-[#00D4FF]'
-                      : 'text-[#7BC8FF] hover:text-[#00D4FF]'
-                  )}
-                  title="Light mode"
-                >
-                  <Sun size={18} />
-                </button>
-                <button
-                  onClick={() => setTheme('dark')}
-                  className={cn(
-                    'p-2 rounded transition-all duration-200',
-                    theme === 'dark'
-                      ? 'bg-[#00D4FF]/20 text-[#00D4FF]'
-                      : 'text-[#7BC8FF] hover:text-[#00D4FF]'
-                  )}
-                  title="Dark mode"
-                >
-                  <Moon size={18} />
-                </button>
-              </div>
+            <div className="hidden md:flex items-center gap-4">
+              <button
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className={cn(
+                  'p-2.5 rounded-lg transition-all duration-300 backdrop-blur-sm',
+                  theme === 'dark'
+                    ? 'dark:bg-[#00D4FF]/10 dark:text-[#00D4FF] dark:hover:bg-[#00D4FF]/20'
+                    : 'light:bg-[#0066FF]/10 light:text-[#0066FF] light:hover:bg-[#0066FF]/20'
+                )}
+                title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              >
+                {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
               <GlowButton
                 size="sm"
                 onClick={() => handleNavClick('#contact')}
@@ -126,7 +133,12 @@ export function Navbar() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-white hover:text-[#00D4FF] transition-colors"
+              className={cn(
+                'md:hidden p-2 transition-colors',
+                theme === 'dark'
+                  ? 'dark:text-white dark:hover:text-[#00D4FF]'
+                  : 'light:text-[#0F172A] light:hover:text-[#0066FF]'
+              )}
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -159,37 +171,21 @@ export function Navbar() {
                   {link.label}
                 </motion.button>
               ))}
-              <motion.div
+              <motion.button
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.35 }}
-                className="flex items-center gap-2 bg-[#0A1628]/50 rounded-lg p-2"
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className={cn(
+                  'p-2.5 rounded-lg transition-all duration-300 backdrop-blur-sm',
+                  theme === 'dark'
+                    ? 'dark:bg-[#00D4FF]/10 dark:text-[#00D4FF] dark:hover:bg-[#00D4FF]/20'
+                    : 'light:bg-[#0066FF]/10 light:text-[#0066FF] light:hover:bg-[#0066FF]/20'
+                )}
+                title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               >
-                <button
-                  onClick={() => setTheme('light')}
-                  className={cn(
-                    'p-2 rounded transition-all duration-200',
-                    theme === 'light'
-                      ? 'bg-[#00D4FF]/20 text-[#00D4FF]'
-                      : 'text-[#7BC8FF] hover:text-[#00D4FF]'
-                  )}
-                  title="Light mode"
-                >
-                  <Sun size={20} />
-                </button>
-                <button
-                  onClick={() => setTheme('dark')}
-                  className={cn(
-                    'p-2 rounded transition-all duration-200',
-                    theme === 'dark'
-                      ? 'bg-[#00D4FF]/20 text-[#00D4FF]'
-                      : 'text-[#7BC8FF] hover:text-[#00D4FF]'
-                  )}
-                  title="Dark mode"
-                >
-                  <Moon size={20} />
-                </button>
-              </motion.div>
+                {theme === 'dark' ? <Sun size={24} /> : <Moon size={24} />}
+              </motion.button>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

@@ -39,35 +39,35 @@
 
 /* Light Mode Colors */
 .light {
-  --background: #F8FAFC;
+  --background: #FAFBFC;
   --foreground: #0F172A;
   --card: #FFFFFF;
   --card-foreground: #0F172A;
   --popover: #FFFFFF;
   --popover-foreground: #0F172A;
-  --primary: #0084FF;
+  --primary: #0066FF;
   --primary-foreground: #FFFFFF;
-  --secondary: #E2E8F0;
+  --secondary: #EFF2F5;
   --secondary-foreground: #0F172A;
-  --muted: #F1F5F9;
-  --muted-foreground: #475569;
-  --accent: #3B82F6;
+  --muted: #F3F6F9;
+  --muted-foreground: #525C73;
+  --accent: #2563EB;
   --accent-foreground: #FFFFFF;
   --destructive: #EF4444;
   --destructive-foreground: #FFFFFF;
-  --border: #E2E8F0;
-  --input: #F1F5F9;
-  --ring: #0084FF;
+  --border: #DCEAF0;
+  --input: #F7F9FB;
+  --ring: #0066FF;
   
   /* Custom colors for light mode */
-  --void-black: #F8FAFC;
+  --void-black: #FAFBFC;
   --deep-navy: #FFFFFF;
-  --dark-steel: #E2E8F0;
-  --electric-cyan: #0084FF;
-  --neon-blue: #3B82F6;
-  --soft-glow: #60A5FA;
+  --dark-steel: #EFF2F5;
+  --electric-cyan: #0066FF;
+  --neon-blue: #2563EB;
+  --soft-glow: #3B82F6;
   --text-primary: #0F172A;
-  --text-secondary: #475569;
+  --text-secondary: #525C73;
 }
 
 @theme inline {
