@@ -47,7 +47,7 @@ export function Navbar() {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
           isScrolled 
-            ? 'bg-[#020B18]/80 backdrop-blur-lg border-b border-[#1A3A5C]/50' 
+            ? 'bg-[#020B18]/80 backdrop-blur-lg border-b border-[#1A3A5C]/50'
             : 'bg-transparent'
         )}
       >
@@ -56,7 +56,7 @@ export function Navbar() {
             {/* Logo */}
             <motion.a
               href="#"
-              className="flex items-center gap-2 group"
+              className="flex items-center gap-2 group flex-shrink-0"
               whileHover={{ scale: 1.02 }}
             >
               <div className="relative w-10 h-10 flex items-center justify-center">
@@ -64,7 +64,7 @@ export function Navbar() {
                 <span className="relative text-xl font-bold text-[#00D4FF]" style={{ fontFamily: 'var(--font-space), Space Grotesk, sans-serif' }}>CB</span>
               </div>
               <span 
-                className="text-lg font-semibold text-white hidden sm:block"
+                className="text-lg font-semibold hidden sm:block text-white"
                 style={{ fontFamily: 'var(--font-space), Space Grotesk, sans-serif' }}
               >
                 InfoTech
@@ -72,7 +72,7 @@ export function Navbar() {
             </motion.a>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-8 flex-1 justify-center px-4">
               {navLinks.map((link) => (
                 <button
                   key={link.label}
@@ -86,7 +86,7 @@ export function Navbar() {
             </div>
 
             {/* CTA Button */}
-            <div className="hidden md:block">
+            <div className="hidden md:flex items-center gap-4">
               <GlowButton
                 size="sm"
                 onClick={() => handleNavClick('#contact')}
@@ -134,7 +134,7 @@ export function Navbar() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.4 }}
+                transition={{ duration: 0.3, delay: 0.35 }}
               >
                 <GlowButton
                   onClick={() => handleNavClick('#contact')}

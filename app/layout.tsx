@@ -59,7 +59,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`} suppressHydrationWarning>
-      <body className="font-sans antialiased bg-[#020B18] text-white overflow-x-hidden" suppressHydrationWarning>
+      <body className="font-sans antialiased overflow-x-hidden bg-[#020B18] text-white" suppressHydrationWarning>
         {children}
         <Analytics />
       </body>

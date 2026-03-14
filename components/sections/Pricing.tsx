@@ -13,45 +13,60 @@ import { GlowButton } from '@/components/ui/GlowButton'
 const pricingTiers = [
   {
     name: 'Starter',
-    price: '₹10,000',
-    description: 'Perfect for small businesses getting started online',
+    price: '₹12,999',
+    period: '/project',
+    description: 'Perfect for small businesses and portfolios',
     features: [
-      'Responsive Business Website',
-      'Up to 5 Pages',
-      'Contact Form Integration',
-      '1 Month Free Support',
+      'Responsive Website (5-8 Pages)',
+      'Mobile-First Design',
+      'Contact Form & CMS Basics',
+      'Free Domain 1st Year',
       'Basic SEO Setup',
+      '2 Months Support',
+      'SSL Certificate',
+      'Performance Optimization',
     ],
     popular: false,
-    note: 'Launch your dream website — No hidden costs.',
+    note: 'Best for getting started online',
   },
   {
     name: 'Professional',
-    price: '₹25,000',
-    description: 'Ideal for growing businesses with advanced needs',
+    price: '₹35,999',
+    period: '/project',
+    description: 'Most popular for growing businesses',
     features: [
       'Everything in Starter',
-      'E-commerce or Custom Features',
-      'CMS Integration',
-      '3 Months Support & Maintenance',
-      'Advanced SEO',
+      'E-commerce Store (Upto 100 Products)',
+      'Payment Gateway Integration',
+      'Advanced CMS & Admin Panel',
+      'Custom Animations & Effects',
+      '6 Months Support & Maintenance',
+      'Analytics & Reporting',
+      'API Integrations',
+      'Database Design & Optimization',
     ],
     popular: true,
-    note: null,
+    note: 'Includes 1 month free maintenance',
   },
   {
     name: 'Enterprise',
-    price: 'Custom',
-    description: 'For large-scale applications and complex requirements',
+    price: '₹75,000+',
+    period: '/project',
+    description: 'For complex applications and scaling businesses',
     features: [
-      'Full Custom Web Application',
-      'CRM / Portal Development',
-      'Server Setup & Deployment',
-      'AMC (Annual Maintenance Contract)',
-      'Priority Support',
+      'Fully Custom Web Application',
+      'E-commerce (Unlimited Products)',
+      'CRM / ERP / Management Portal',
+      'Advanced Feature Development',
+      'Cloud Infrastructure Setup',
+      'DevOps & CI/CD Pipeline',
+      '1 Year Support & Maintenance',
+      'Annual Maintenance Contract (AMC)',
+      'Priority 24/7 Support',
+      'Dedicated Account Manager',
     ],
     popular: false,
-    note: null,
+    note: 'Custom pricing based on requirements',
   },
 ]
 
@@ -64,9 +79,9 @@ export function Pricing() {
   }
 
   return (
-    <section id="pricing" className="relative py-16 md:py-24">
+    <section id="pricing" className="relative py-16 md:py-24 dark:bg-[#020B18] light:bg-[#F8FAFC]">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#020B18] via-[#0A1628]/50 to-[#020B18]" />
+      <div className="absolute inset-0 dark:bg-gradient-to-b dark:from-[#020B18] dark:via-[#0A1628]/50 dark:to-[#020B18] light:bg-gradient-to-b light:from-[#F8FAFC] light:via-white light:to-[#F8FAFC]" />
       
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
@@ -85,8 +100,8 @@ export function Pricing() {
               whileHover={{ y: -5 }}
               className={`relative rounded-2xl p-6 md:p-8 transition-all duration-300 ${
                 tier.popular
-                  ? 'bg-[#0A1628] border-2 border-[#00D4FF]/50 shadow-[0_0_30px_rgba(0,212,255,0.2)]'
-                  : 'bg-[#0A1628]/80 border border-[#1A3A5C]/50 hover:border-[#00D4FF]/30'
+                  ? 'dark:bg-[#0A1628] light:bg-white dark:border-2 light:border-2 dark:border-[#00D4FF]/50 light:border-[#0084FF]/50 dark:shadow-[0_0_30px_rgba(0,212,255,0.2)] light:shadow-[0_0_30px_rgba(0,132,255,0.2)]'
+                  : 'dark:bg-[#0A1628]/80 light:bg-white dark:border dark:border-[#1A3A5C]/50 light:border light:border-[#E2E8F0] dark:hover:border-[#00D4FF]/30 light:hover:border-[#0084FF]/30'
               }`}
             >
               {/* Popular badge */}
@@ -109,14 +124,19 @@ export function Pricing() {
 
               {/* Price */}
               <div className="mb-4">
-                <span 
-                  className={`text-4xl md:text-5xl font-bold ${
-                    tier.popular ? 'text-[#00D4FF] text-glow-cyan' : 'text-white'
-                  }`}
-                  style={{ fontFamily: 'var(--font-space), Space Grotesk, sans-serif' }}
-                >
-                  {tier.price}
-                </span>
+                <div className="flex items-baseline gap-2">
+                  <span 
+                    className={`text-4xl md:text-5xl font-bold ${
+                      tier.popular ? 'text-[#00D4FF] text-glow-cyan' : 'text-white'
+                    }`}
+                    style={{ fontFamily: 'var(--font-space), Space Grotesk, sans-serif' }}
+                  >
+                    {tier.price}
+                  </span>
+                  <span className={`text-sm ${tier.popular ? 'text-[#00D4FF]/80' : 'text-[#7BC8FF]'}`}>
+                    {tier.period}
+                  </span>
+                </div>
               </div>
 
               {/* Description */}

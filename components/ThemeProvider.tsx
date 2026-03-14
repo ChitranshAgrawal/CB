@@ -6,7 +6,7 @@ type Theme = 'dark' | 'light'
 
 interface ThemeContextType {
   theme: Theme
-  toggleTheme: () => void
+  setTheme: (theme: Theme) => void
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
@@ -37,16 +37,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('cb-theme', theme)
   }, [theme, mounted])
 
-  const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark')
-  }
-
   if (!mounted) {
     return null
   }
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   )

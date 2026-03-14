@@ -25,12 +25,12 @@ const technologies = [
 
 function TechLogo({ name, color }: { name: string; color: string }) {
   return (
-    <div className="flex items-center gap-3 px-6 py-3 mx-4 rounded-lg bg-[#0A1628]/50 border border-[#1A3A5C]/30 hover:border-[#00D4FF]/30 transition-colors">
+    <div className="flex items-center gap-3 px-6 py-3 mx-4 rounded-lg dark:bg-[#0A1628]/50 light:bg-white dark:border dark:border-[#1A3A5C]/30 light:border light:border-[#E2E8F0] dark:hover:border-[#00D4FF]/30 light:hover:border-[#0084FF]/30 transition-colors">
       <div 
         className="w-3 h-3 rounded-full"
         style={{ backgroundColor: color, boxShadow: `0 0 10px ${color}40` }}
       />
-      <span className="font-mono text-sm text-[#B8D4E8] whitespace-nowrap">{name}</span>
+      <span className="font-mono text-sm dark:text-[#B8D4E8] light:text-[#475569] whitespace-nowrap">{name}</span>
     </div>
   )
 }
@@ -40,13 +40,13 @@ export function TechStack() {
   const doubledTech = [...technologies, ...technologies]
 
   return (
-    <section className="relative py-12 md:py-16 overflow-hidden">
+    <section className="relative py-12 md:py-16 overflow-hidden dark:bg-[#020B18] light:bg-[#F8FAFC]">
       {/* Background */}
-      <div className="absolute inset-0 bg-[#020B18]" />
+      <div className="absolute inset-0 dark:bg-[#020B18] light:bg-[#F8FAFC]" />
       
       {/* Gradient overlays for fade effect */}
-      <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#020B18] to-transparent z-10" />
-      <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#020B18] to-transparent z-10" />
+      <div className="absolute left-0 top-0 bottom-0 w-32 dark:bg-gradient-to-r dark:from-[#020B18] light:bg-gradient-to-r light:from-[#F8FAFC] to-transparent z-10" />
+      <div className="absolute right-0 top-0 bottom-0 w-32 dark:bg-gradient-to-l dark:from-[#020B18] light:bg-gradient-to-l light:from-[#F8FAFC] to-transparent z-10" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <motion.p

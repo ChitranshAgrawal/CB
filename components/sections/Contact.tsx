@@ -171,17 +171,21 @@ export function Contact() {
 
   const inputClasses = `
     w-full px-4 py-3 rounded-lg
-    bg-[#0D2137] border border-[#1A3A5C]/50
-    text-white placeholder:text-[#7BC8FF]/50
-    focus:outline-none focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF]
+    dark:bg-[#0D2137] light:bg-white
+    dark:border dark:border-[#1A3A5C]/50 light:border light:border-[#E2E8F0]
+    dark:text-white light:text-[#0F172A]
+    dark:placeholder:text-[#7BC8FF]/50 light:placeholder:text-[#475569]/50
+    focus:outline-none
+    dark:focus:border-[#00D4FF] dark:focus:ring-1 dark:focus:ring-[#00D4FF]
+    light:focus:border-[#0084FF] light:focus:ring-1 light:focus:ring-[#0084FF]
     transition-all duration-200
   `
 
   const errorClasses = 'border-red-500/50 focus:border-red-500 focus:ring-red-500'
 
   return (
-    <section id="contact" className="relative py-16 md:py-24">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#020B18] via-[#0A1628] to-[#020B18]" />
+    <section id="contact" className="relative py-16 md:py-24 dark:bg-[#020B18] light:bg-[#F8FAFC]">
+      <div className="absolute inset-0 dark:bg-gradient-to-b dark:from-[#020B18] dark:via-[#0A1628] dark:to-[#020B18] light:bg-gradient-to-b light:from-[#F8FAFC] light:via-white light:to-[#F8FAFC]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
@@ -197,7 +201,7 @@ export function Contact() {
             transition={{ duration: 0.5 }}
           >
             {isSubmitted ? (
-              <div className="h-full flex items-center justify-center rounded-2xl bg-[#0A1628]/80 border border-[#1A3A5C]/50 p-8">
+              <div className="h-full flex items-center justify-center rounded-2xl dark:bg-[#0A1628]/80 light:bg-white dark:border dark:border-[#1A3A5C]/50 light:border light:border-[#E2E8F0] p-8">
                 <div className="text-center">
                   <div className="w-16 h-16 rounded-full bg-[#00D4FF]/20 flex items-center justify-center mx-auto mb-4">
                     <Send className="w-8 h-8 text-[#00D4FF]" />
@@ -221,7 +225,7 @@ export function Contact() {
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+              <form onSubmit={handleSubmit} className="space-y-5 dark:bg-transparent light:bg-transparent" noValidate>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="name" className="sr-only">Your Name</label>
@@ -342,24 +346,24 @@ export function Contact() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="flex items-start gap-4 p-5 rounded-xl bg-[#0A1628]/60 border border-[#1A3A5C]/30 hover:border-[#00D4FF]/30 transition-colors"
+                className="flex items-start gap-4 p-5 rounded-xl dark:bg-[#0A1628]/60 light:bg-white dark:border dark:border-[#1A3A5C]/30 light:border light:border-[#E2E8F0] dark:hover:border-[#00D4FF]/30 light:hover:border-[#0084FF]/30 transition-colors"
               >
-                <div className="w-12 h-12 rounded-lg bg-[#00D4FF]/10 flex items-center justify-center flex-shrink-0">
-                  <item.icon className="w-6 h-6 text-[#00D4FF]" />
+                <div className="w-12 h-12 rounded-lg dark:bg-[#00D4FF]/10 light:bg-[#0084FF]/10 flex items-center justify-center flex-shrink-0">
+                  <item.icon className="w-6 h-6 dark:text-[#00D4FF] light:text-[#0084FF]" />
                 </div>
                 <div>
-                  <div className="text-sm text-[#7BC8FF] mb-1">{item.label}</div>
+                  <div className="text-sm dark:text-[#7BC8FF] light:text-[#475569] mb-1">{item.label}</div>
                   {item.href ? (
                     <a
                       href={item.href}
                       target={item.href.startsWith('http') ? '_blank' : undefined}
                       rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className="text-white hover:text-[#00D4FF] transition-colors"
+                      className="dark:text-white light:text-[#0F172A] dark:hover:text-[#00D4FF] light:hover:text-[#0084FF] transition-colors"
                     >
                       {item.value}
                     </a>
                   ) : (
-                    <span className="text-white">{item.value}</span>
+                    <span className="dark:text-white light:text-[#0F172A]">{item.value}</span>
                   )}
                 </div>
               </motion.div>

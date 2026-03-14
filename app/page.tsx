@@ -16,6 +16,7 @@ import { Contact } from '@/components/sections/Contact'
 import { Footer } from '@/components/sections/Footer'
 import { ParticleBackground } from '@/components/effects/ParticleBackground'
 import { CustomCursor } from '@/components/effects/CustomCursor'
+import { AIAssistant } from '@/components/AIAssistant'
 
 export default function HomePage() {
   return (
@@ -37,6 +38,9 @@ export default function HomePage() {
       <Pricing />
       <Contact />
       <Footer />
+
+      {/* AI Assistant */}
+      <AIAssistant />
     </main>
   )
 }

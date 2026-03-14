@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* CB InfoTech JARVIS Theme */
+  /* CB InfoTech JARVIS Theme - Dark Mode (Default) */
   --background: #020B18;
   --foreground: #E8F4FF;
   --card: #0A1628;
