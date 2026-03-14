@@ -51,8 +51,8 @@ export function Footer() {
             key={i}
             className="absolute w-1 h-1 rounded-full bg-[#00D4FF]/20"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${((i * 37 + 11) % 97)}%`,
+              top: `${((i * 53 + 7) % 89)}%`,
             }}
           />
         ))}
