@@ -5,9 +5,9 @@
  * Includes offer line, form with validation, and contact information
  */
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, Clock, Send, MessageSquare } from 'lucide-react'
+import { Mail, MapPin, Clock, Send, MessageSquare } from 'lucide-react'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { GlowButton } from '@/components/ui/GlowButton'
 
@@ -71,64 +71,92 @@ const contactInfo = [
   },
 ]
 
+const initialFormData: FormData = {
+  name: '',
+  email: '',
+  phone: '',
+  projectType: '',
+  budget: '',
+  message: '',
+}
+
 export function Contact() {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    phone: '',
-    projectType: '',
-    budget: '',
-    message: '',
-  })
+  const [formData, setFormData] = useState<FormData>(initialFormData)
   const [errors, setErrors] = useState<FormErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState('')
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {}
-    
+
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required'
     }
-    
+
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required'
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email'
     }
-    
+
     if (formData.phone && !/^[\d\s+()-]{10,}$/.test(formData.phone)) {
       newErrors.phone = 'Please enter a valid phone number'
     }
-    
+
     if (!formData.message.trim()) {
       newErrors.message = 'Message is required'
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Please add at least 10 characters'
     }
-    
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
+  const hasErrors = useMemo(() => Object.keys(errors).length > 0, [errors])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!validateForm()) return
-    
+
     setIsSubmitting(true)
-    
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-    
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      projectType: '',
-      budget: '',
-      message: '',
-    })
+    setSubmitMessage('')
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      const payload = await response.json().catch(() => null)
+
+      if (!response.ok) {
+        const apiErrors = payload?.issues as Record<string, string[]> | undefined
+        if (apiErrors) {
+          setErrors((prev) => ({
+            ...prev,
+            name: apiErrors.name?.[0] ?? prev.name,
+            email: apiErrors.email?.[0] ?? prev.email,
+            phone: apiErrors.phone?.[0] ?? prev.phone,
+            message: apiErrors.message?.[0] ?? prev.message,
+          }))
+        }
+        setSubmitMessage(payload?.message ?? 'Submission failed. Please try again.')
+        return
+      }
+
+      setIsSubmitted(true)
+      setFormData(initialFormData)
+      setErrors({})
+      setSubmitMessage(payload?.message ?? 'Thanks! We will contact you shortly.')
+    } catch {
+      setSubmitMessage('Network issue. Please email us directly at hello@cbinfotech.in.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (
@@ -153,9 +181,8 @@ export function Contact() {
 
   return (
     <section id="contact" className="relative py-16 md:py-24">
-      {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#020B18] via-[#0A1628] to-[#020B18]" />
-      
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           title="Ready to Build Something Extraordinary?"
@@ -163,7 +190,6 @@ export function Contact() {
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -176,17 +202,18 @@ export function Contact() {
                   <div className="w-16 h-16 rounded-full bg-[#00D4FF]/20 flex items-center justify-center mx-auto mb-4">
                     <Send className="w-8 h-8 text-[#00D4FF]" />
                   </div>
-                  <h3 
+                  <h3
                     className="text-xl font-bold text-white mb-2"
                     style={{ fontFamily: 'var(--font-space), Space Grotesk, sans-serif' }}
                   >
                     Message Sent!
                   </h3>
-                  <p className="text-[#B8D4E8]">
-                    We will get back to you within 24 hours.
-                  </p>
+                  <p className="text-[#B8D4E8]">{submitMessage || 'We will get back to you within 24 hours.'}</p>
                   <button
-                    onClick={() => setIsSubmitted(false)}
+                    onClick={() => {
+                      setIsSubmitted(false)
+                      setSubmitMessage('')
+                    }}
                     className="mt-4 text-[#00D4FF] hover:underline"
                   >
                     Send another message
@@ -194,55 +221,57 @@ export function Contact() {
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Name & Email */}
+              <form onSubmit={handleSubmit} className="space-y-5" noValidate>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
+                    <label htmlFor="name" className="sr-only">Your Name</label>
                     <input
+                      id="name"
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="Your Name *"
                       className={`${inputClasses} ${errors.name ? errorClasses : ''}`}
+                      aria-invalid={!!errors.name}
                     />
-                    {errors.name && (
-                      <p className="mt-1 text-sm text-red-400">{errors.name}</p>
-                    )}
+                    {errors.name && <p className="mt-1 text-sm text-red-400">{errors.name}</p>}
                   </div>
                   <div>
+                    <label htmlFor="email" className="sr-only">Email Address</label>
                     <input
+                      id="email"
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Email Address *"
                       className={`${inputClasses} ${errors.email ? errorClasses : ''}`}
+                      aria-invalid={!!errors.email}
                     />
-                    {errors.email && (
-                      <p className="mt-1 text-sm text-red-400">{errors.email}</p>
-                    )}
+                    {errors.email && <p className="mt-1 text-sm text-red-400">{errors.email}</p>}
                   </div>
                 </div>
 
-                {/* Phone */}
                 <div>
+                  <label htmlFor="phone" className="sr-only">Phone Number</label>
                   <input
+                    id="phone"
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="Phone Number"
                     className={`${inputClasses} ${errors.phone ? errorClasses : ''}`}
+                    aria-invalid={!!errors.phone}
                   />
-                  {errors.phone && (
-                    <p className="mt-1 text-sm text-red-400">{errors.phone}</p>
-                  )}
+                  {errors.phone && <p className="mt-1 text-sm text-red-400">{errors.phone}</p>}
                 </div>
 
-                {/* Project Type & Budget */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <label htmlFor="projectType" className="sr-only">Project Type</label>
                   <select
+                    id="projectType"
                     name="projectType"
                     value={formData.projectType}
                     onChange={handleChange}
@@ -253,7 +282,9 @@ export function Contact() {
                       <option key={type} value={type}>{type}</option>
                     ))}
                   </select>
+                  <label htmlFor="budget" className="sr-only">Budget Range</label>
                   <select
+                    id="budget"
                     name="budget"
                     value={formData.budget}
                     onChange={handleChange}
@@ -266,22 +297,25 @@ export function Contact() {
                   </select>
                 </div>
 
-                {/* Message */}
                 <div>
+                  <label htmlFor="message" className="sr-only">Project Message</label>
                   <textarea
+                    id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
                     placeholder="Tell us about your project *"
                     rows={5}
                     className={`${inputClasses} resize-none ${errors.message ? errorClasses : ''}`}
+                    aria-invalid={!!errors.message}
                   />
-                  {errors.message && (
-                    <p className="mt-1 text-sm text-red-400">{errors.message}</p>
-                  )}
+                  {errors.message && <p className="mt-1 text-sm text-red-400">{errors.message}</p>}
                 </div>
 
-                {/* Submit Button */}
+                {submitMessage && (
+                  <p className={`text-sm ${hasErrors ? 'text-red-400' : 'text-[#7BC8FF]'}`}>{submitMessage}</p>
+                )}
+
                 <GlowButton
                   type="submit"
                   className="w-full"
@@ -294,7 +328,6 @@ export function Contact() {
             )}
           </motion.div>
 
-          {/* Contact Information */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -331,18 +364,6 @@ export function Contact() {
                 </div>
               </motion.div>
             ))}
-
-            {/* Map or additional content */}
-            {/* <div className="relative h-48 rounded-xl overflow-hidden bg-[#0A1628]/60 border border-[#1A3A5C]/30">
-              <div className="absolute inset-0 grid-pattern opacity-50" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="w-8 h-8 text-[#00D4FF] mx-auto mb-2" />
-                  <p className="text-[#B8D4E8]">Serving clients worldwide</p>
-                  <p className="text-sm text-[#7BC8FF]">Based in India</p>
-                </div>
-              </div>
-            </div> */}
           </motion.div>
         </div>
       </div>

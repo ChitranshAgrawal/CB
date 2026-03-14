@@ -22,6 +22,7 @@ export function CustomCursor() {
   const [pos, setPos] = useState({ x: -200, y: -200 })
   const [particles, setParticles] = useState<Particle[]>([])
   const [isHovering, setIsHovering] = useState(false)
+  const [isEnabled, setIsEnabled] = useState(false)
   const idRef = useRef(0)
   const lastSpawnRef = useRef(0)
 
@@ -31,7 +32,7 @@ export function CustomCursor() {
     lastSpawnRef.current = now
 
     const id = idRef.current++
-    setParticles(prev => [
+    setParticles((prev) => [
       ...prev.slice(-22),
       {
         id,
@@ -40,38 +41,53 @@ export function CustomCursor() {
         size: 2.5 + Math.random() * 2.5,
         driftX: (Math.random() - 0.5) * 28,
         driftY: -(20 + Math.random() * 28),
-        dur: 1.0 + Math.random() * 0.5,
+        dur: 1 + Math.random() * 0.5,
       },
     ])
 
     setTimeout(() => {
-      setParticles(prev => prev.filter(p => p.id !== id))
+      setParticles((prev) => prev.filter((p) => p.id !== id))
     }, 1600)
   }, [])
 
   useEffect(() => {
-    // Hide default OS cursor
+    const canUseCustomCursor =
+      window.matchMedia('(pointer: fine)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    setIsEnabled(canUseCustomCursor)
+
+    if (!canUseCustomCursor) {
+      return
+    }
+
     document.body.style.cursor = 'none'
-    return () => { document.body.style.cursor = '' }
+    return () => {
+      document.body.style.cursor = ''
+    }
   }, [])
 
   useEffect(() => {
+    if (!isEnabled) return
+
     const onMove = (e: MouseEvent) => {
       setPos({ x: e.clientX, y: e.clientY })
       spawnParticle(e.clientX, e.clientY)
       const t = e.target as HTMLElement
       setIsHovering(
-        t.tagName === 'BUTTON' || t.tagName === 'A' ||
-        !!t.closest('button') || !!t.closest('a')
+        t.tagName === 'BUTTON' || t.tagName === 'A' || !!t.closest('button') || !!t.closest('a')
       )
     }
     window.addEventListener('mousemove', onMove)
     return () => window.removeEventListener('mousemove', onMove)
-  }, [spawnParticle])
+  }, [isEnabled, spawnParticle])
+
+  if (!isEnabled) {
+    return null
+  }
 
   return (
     <>
-      {/* ── Outer trailing ring ── */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9996] rounded-full"
         animate={{ x: pos.x - 20, y: pos.y - 20 }}
@@ -89,7 +105,6 @@ export function CustomCursor() {
         />
       </motion.div>
 
-      {/* ── Mid ring (slightly lagged) ── */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9997] rounded-full border border-[#00D4FF]/25"
         animate={{ x: pos.x - 12, y: pos.y - 12 }}
@@ -97,7 +112,6 @@ export function CustomCursor() {
         style={{ width: 24, height: 24 }}
       />
 
-      {/* ── Core dot (snappy, no blend mode) ── */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9999]"
         animate={{ x: pos.x - 5, y: pos.y - 5 }}
@@ -116,9 +130,8 @@ export function CustomCursor() {
         />
       </motion.div>
 
-      {/* ── Particle trail ── */}
       <AnimatePresence>
-        {particles.map(p => (
+        {particles.map((p) => (
           <motion.div
             key={p.id}
             className="fixed top-0 left-0 pointer-events-none z-[9995] rounded-full"

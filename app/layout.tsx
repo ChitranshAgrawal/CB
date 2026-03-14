@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
+import { siteConfig } from '@/lib/site'
 
 const spaceGrotesk = Space_Grotesk({ 
   subsets: ['latin'],
@@ -17,22 +18,31 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: 'CB InfoTech | Engineering the Digital Future',
-  description: 'Premium full-stack web development company offering world-class digital solutions. Websites, web apps, e-commerce, CRMs, and more starting at just ₹10,000.',
+  description: siteConfig.description,
   keywords: ['web development', 'website design', 'MERN stack', 'Next.js', 'e-commerce', 'CRM', 'India'],
   authors: [{ name: 'CB InfoTech' }],
   creator: 'CB InfoTech',
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     type: 'website',
     locale: 'en_IN',
     siteName: 'CB InfoTech',
     title: 'CB InfoTech | Engineering the Digital Future',
-    description: 'Premium full-stack web development company offering world-class digital solutions.',
+    description: siteConfig.description,
+    url: siteConfig.url,
   },
   twitter: {
     card: 'summary_large_image',
     title: 'CB InfoTech | Engineering the Digital Future',
-    description: 'Premium full-stack web development company offering world-class digital solutions.',
+    description: siteConfig.description,
   },
 }
 
@@ -48,8 +58,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
-      <body className="font-sans antialiased bg-[#020B18] text-white overflow-x-hidden">
+    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`} suppressHydrationWarning>
+      <body className="font-sans antialiased bg-[#020B18] text-white overflow-x-hidden" suppressHydrationWarning>
         {children}
         <Analytics />
       </body>
